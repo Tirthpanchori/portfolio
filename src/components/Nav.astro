@@ -1,0 +1,12 @@
+---
+import Arrow from './Arrow.astro';
+const { home = true } = Astro.props;
+const root = home ? '' : '/';
+---
+<header class="site-header">
+  <nav class="nav" aria-label="Main navigation">
+    <a class="nav-name" href={`${root}#home`} aria-label="Tirth Panchori — home"><span class="nav-word">Tirth<svg class="nav-mark" viewBox="0 0 34 34" fill="none" aria-hidden="true"><rect x="3" y="3" width="23" height="23" rx="1" stroke="currentColor" stroke-width="1.4"/><path d="M14.5 3v23M3 14.5h23" stroke="currentColor" stroke-width="1.4"/><path d="m20 19 3 13 3-4 5 2 1-3-5-2 4-3-11-3Z" fill="currentColor" stroke="var(--paper)" stroke-width="1.2" stroke-linejoin="round"/></svg></span></a>
+    <div class="nav-links"><a href={`${root}#about`}>About</a><a href={`${root}#projects`}>Work</a><a href={`${root}#open-source`}>Contributions</a></div>
+    <a class="exchange-link nav-contact" href={`${root}#contact`} aria-label="Get In Touch"><span class="exchange-arrow arrow-before"><Arrow/></span><span class="exchange-label">Get In Touch</span><span class="exchange-arrow arrow-after"><Arrow/></span></a>
+  </nav>
+</header>

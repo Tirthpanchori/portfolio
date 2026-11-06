@@ -1,0 +1,37 @@
+---
+import '../styles/global.css';
+import '../styles/reference.css';
+import Cursor from '../components/Cursor.astro';
+import { indexable, siteOrigin } from '../data/site';
+const { title = 'Tirth Panchori — Backend & Applied AI', description = 'Tirth Panchori builds backend systems and applied AI tools. Explore Relevo, LogAnalyzer, MindArc, his engineering process, and open-source work.' } = Astro.props;
+const isHome = Astro.url.pathname === '/';
+const is404 = ['/404', '/404/', '/404.html'].includes(Astro.url.pathname);
+const canonical = siteOrigin && !is404 ? new URL(Astro.url.pathname, siteOrigin).href : null;
+const schema = { '@context': 'https://schema.org', '@type': 'ProfilePage', name: title, mainEntity: { '@type': 'Person', name: 'Tirth Panchori', jobTitle: 'Backend and applied AI developer', description: 'Information Science and Engineering student at BMSIT&M, building backend systems and applied AI tools.', sameAs: ['https://github.com/Tirthpanchori', 'https://www.linkedin.com/in/tirth-panchori-860887206/'] } };
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#1E1E24"/><title>{title}</title><meta name="description" content={description}/>
+  {canonical && <link rel="canonical" href={canonical}/>}
+  {(!indexable || is404) && <meta name="robots" content="noindex"/>}
+  <meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/>
+  {canonical && <meta property="og:url" content={canonical}/>}
+  {canonical && <meta property="og:image" content={new URL('/tirth-portrait.webp', canonical).href}/>}
+  {canonical && <meta property="og:image:alt" content="Portrait of Tirth Panchori"/>}
+  {canonical && <meta property="og:image:width" content="720"/>}
+  {canonical && <meta property="og:image:height" content="960"/>}
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  <link rel="preload" href="/fonts/stardom.woff2" as="font" type="font/woff2" crossorigin/>
+  <link rel="preload" href="/fonts/dm-sans.woff2" as="font" type="font/woff2" crossorigin/>
+  {isHome && <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')}/>}
+</head>
+<body>
+  <noscript><style>.copy-email{display:none}.journey-section{height:auto}.journey-stage{position:static;height:auto;padding:70px 24px}.journey-wheel,.journey-controls{display:none}.journey-stories{position:static;transform:none;display:block;width:min(100%,900px);margin:40px auto;text-align:left}.journey-story{position:static;opacity:1;visibility:visible;transform:none;margin-bottom:35px}.journey-story .journey-year{display:block;font-size:24px}.step-detail{grid-template-rows:1fr}.step-detail p{padding-bottom:24px}</style></noscript>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <slot/>
+  <Cursor/>
+  <script>import '../scripts/motion';</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Arrow from '../../components/Arrow.astro';
+import ProjectArt from '../../components/ProjectArt.astro';
+import {projects} from '../../data/projects';
+export function getStaticPaths(){ return projects.map(project=>({params:{slug:project.slug},props:{project}})); }
+const {project:p} = Astro.props;
+const next = projects[(projects.findIndex(x=>x.slug===p.slug)+1)%projects.length];
+---
+<Layout title={`${p.name} — Tirth Panchori`} description={p.description}>
+<Nav home={false}/>
+<main id="main" class="case-main">
+<section class="case-hero section grid-paper"><a class="back-link" href="/#projects">← All projects</a><h1>{p.name}</h1><p class="case-intro">{p.description}</p><div class="case-meta"><span>{p.scope}</span><span>{p.kind}</span><div>{p.tags.map(tag=><span>{tag}</span>)}</div></div><div class="case-links"><a href={p.code} target="_blank" rel="noopener noreferrer">Explore the code <Arrow/></a>{p.demo&&<a href={p.demo} target="_blank" rel="noopener noreferrer">Open live project <Arrow/></a>}</div></section>
+<div class="section case-preview"><ProjectArt type={p.slug}/><p class="preview-caption">Authored system illustration. Example values are illustrative, not a screenshot of the live product.</p></div>
+<div class="section case-content"><section><h2>The <em>problem.</em></h2><p class="lead">{p.problem}</p></section><section><h2>The <em>approach.</em></h2><p class="lead">{p.approach}</p></section><section class="case-decisions"><h2>Decisions that<br/><em>shape the system.</em></h2><div>{p.decisions.map(([title,text])=><article><h3>{title}</h3><p>{text}</p></article>)}</div></section><section class="case-outcomes"><div><h2>What it <em>does.</em></h2><p>{p.outcome}</p></div><div><h3>Where the evidence stops.</h3><p>{p.limits}</p></div></section><section><h2>What comes <em>next.</em></h2><p class="lead">{p.next}</p></section><div class="case-next"><span>Next project</span><a href={`/projects/${next.slug}/`}>{next.name}<Arrow/></a><a class="back-link" href="/#projects">Back to all work</a></div></div>
+</main><footer class="case-footer"><a href="mailto:panchoritirth483@gmail.com">Let’s build something useful. <Arrow/></a><span>Tirth Panchori · Bengaluru</span></footer>
+</Layout>
+
+<style>
+  @media (hover: hover) and (pointer: fine) {
+    .case-preview :global(.project-art) {
+      pointer-events: auto;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    :global(html:not([data-motion="off"])) .case-preview :global(:is(.relevo-flow, .log-workspace, .mind-workspace, .window-demo)) {
+      transition: transform .55s cubic-bezier(.16, 1, .3, 1);
+    }
+
+    :global(html:not([data-motion="off"])) .case-preview :global(.project-art:hover :is(.relevo-flow, .log-workspace, .mind-workspace, .window-demo)) {
+      transform: rotate(0deg);
+    }
+  }
+</style>

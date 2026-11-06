@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Arrow from '../components/Arrow.astro';
+import { contributionGroups, contributionCount, contributionUrl } from '../data/contributions';
+
+const repositoryId = (repository: string) => repository.split('/')[1].toLowerCase();
+const mergedDate = (date: string) => new Intl.DateTimeFormat('en-GB', { day:'numeric', month:'long', year:'numeric', timeZone:'UTC' }).format(new Date(`${date}T00:00:00Z`));
+---
+<Layout title="Open source — Tirth Panchori" description="16 merged pull requests across seven open-source projects. Explore Tirth Panchori’s contributions to API limits, exports, startup reliability and interface improvements.">
+  <Nav home={false}/>
+  <main id="main" class="oss-page">
+    <header class="oss-page-header">
+      <a class="oss-back" href="/#open-source"><Arrow/> Back to portfolio</a>
+      <h1>Open source.</h1>
+      <p>{contributionCount} merged pull requests. {contributionGroups.length} shared projects.<br/>The fixes, features and details I’ve contributed—each linked to the original pull request.</p>
+      <nav class="oss-repo-nav" aria-label="Jump to repository">{contributionGroups.map(group=><a href={`#${repositoryId(group.repository)}`}>{group.name}</a>)}</nav>
+    </header>
+    {contributionGroups.map(group=><section class="oss-repository" id={repositoryId(group.repository)} aria-labelledby={`${repositoryId(group.repository)}-title`}>
+      <header class="oss-repository-heading"><h2 id={`${repositoryId(group.repository)}-title`}>{group.name}</h2><p>{group.prs.length} merged {group.prs.length===1?'pull request':'pull requests'}</p></header>
+      <ul class="oss-pr-list">{group.prs.map(pr=><li><article class="oss-entry">
+        <div class="oss-entry-meta"><span class="oss-merged"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="7" cy="5" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="19" r="2" stroke="currentColor" stroke-width="1.5"/><circle cx="17" cy="5" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 7v10m10-10c0 6-10 4-10 10" stroke="currentColor" stroke-width="1.5"/></svg>Merged</span><span>PR #{pr.number}</span></div>
+        <h3><a href={contributionUrl(group.repository,pr.number)} target="_blank" rel="noopener noreferrer" aria-label={`${pr.title} — ${group.name} pull request ${pr.number} on GitHub`}>{pr.title}<Arrow/></a></h3>
+        <p>{pr.summary}</p><time datetime={pr.mergedAt}>Merged {mergedDate(pr.mergedAt)}</time>
+      </article></li>)}</ul>
+    </section>)}
+    <div class="oss-page-end"><a class="oss-back" href="/#open-source"><Arrow/> Back to portfolio</a><a class="oss-profile-link" href="https://github.com/Tirthpanchori" target="_blank" rel="noopener noreferrer">More on GitHub <Arrow/></a></div>
+  </main>
+  <footer class="case-footer"><a href="mailto:panchoritirth483@gmail.com">Let’s build something useful. <Arrow/></a><span>Tirth Panchori · Bengaluru</span></footer>
+</Layout>

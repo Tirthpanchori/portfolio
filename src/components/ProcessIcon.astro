@@ -1,0 +1,10 @@
+---
+const { index } = Astro.props;
+const paths = [
+  ['M14 24h8M15 27h6M18 3a9 9 0 0 0-5 16c2 1 2 3 2 5h6c0-2 0-4 2-5a9 9 0 0 0-5-16Z','M4 12H1M35 12h-3'],
+  ['M12 7h16M12 16h16M12 25h16','m3 7 2 2 4-5m-6 12 2 2 4-5m-6 12 2 2 4-5'],
+  ['m11 9-7 7 7 7m14-14 7 7-7 7M21 4l-6 24',''],
+  ['M13 20C9 15 15 4 30 3c-1 15-12 21-17 17Zm0 0-4 4m0-11-6 2 5 5m13 4-2 6-5-5','M8 24c-4 0-5 3-5 6 3 0 6-1 6-5M22 10a3 3 0 1 0 0 .01'],
+];
+---
+<svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><path d={paths[index][0]} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>{paths[index][1]&&<path d={paths[index][1]} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>}</svg>

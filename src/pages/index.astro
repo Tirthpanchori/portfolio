@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Arrow from '../components/Arrow.astro';
+import ProjectArt from '../components/ProjectArt.astro';
+import ProcessIcon from '../components/ProcessIcon.astro';
+import { projects } from '../data/projects';
+import { contributionGroups, contributionCount, featuredContributions, contributionUrl } from '../data/contributions';
+const steps = [
+  ['Start with the right question.', 'Start with the failure, the user, and the constraint.', 'For LogAnalyzer, the starting point was fragmented incident evidence across services — not a model looking for a use case.'],
+  ['Design the system first.', 'Model the data. Make the boundaries clear.', 'In MindArc, generation, authentication, quizzes, and attempts have separate responsibilities, connected through an explicit API.'],
+  ['Build for the real world.', 'Make the important behavior inspectable.', 'The link service makes creation and redirect limits explicit. Sliding-window boundaries and restart persistence are part of the design.'],
+  ['Ship. Listen. Improve.', 'Treat feedback as part of the work.', 'From API limits in FreshScanAi to startup fixes in PatchPilot, my open-source work turns concrete issues into focused, reviewable changes.'],
+];
+const journey = [
+  {year:'2023', title:'A foundation in engineering.',text:'Started Information Science & Engineering at BMSIT&M. A place to turn curiosity into working systems.',note:'BMSIT&M · Bengaluru'},
+  {year:'2024–26',title:'Learning to lead with design.',text:'As E-Cell Design Lead, I worked on visual communication and national hackathon assets — learning to make ideas clear and collaborate around them.',note:'E-Cell · Design Lead'},
+  {year:'2026',title:'Contributing beyond my own code.',text:'Contributing across seven open-source projects: API limits, report exports, startup fixes, and more accessible interfaces. Small changes, reviewed and merged into shared code.',note:'16 merged pull requests · 7 projects'},
+  {year:'Now',title:'Building what comes next.',text:'Working on agentic AI workflows and building more reliable backend systems through projects like Relevo. Expected graduation: 2027.',note:'Backend systems · Agentic AI'},
+];
+---
+<Layout>
+<Nav/>
+<main id="main">
+  <section id="home" class="hero grid-paper">
+    <canvas id="pixel-trail" aria-hidden="true"></canvas>
+    <div class="hero-main">
+      <div class="hero-introduction">
+        <p class="hero-greeting">Hey, I’m</p>
+        <h1 class="hero-title"><span class="sr-only">Tirth Panchori — Backend Developer</span><span class="headline-scene headline-name" aria-hidden="true"><span>Tirth</span><span>Panchori<span class="name-period">.</span></span></span><span class="headline-scene headline-role" aria-hidden="true"><span>Backend</span><span>Developer<span class="name-period">.</span></span></span></h1>
+        <div class="hero-copy"><p>Building backend systems and applied AI tools.<br/>Studying Information Science & Engineering at BMSIT&M.</p><a class="exchange-link hero-work" href="#projects"><span class="exchange-arrow arrow-before"><Arrow/></span><span class="exchange-label">See Work</span><span class="exchange-arrow arrow-after"><Arrow/></span></a></div>
+      </div>
+      <figure class="hero-portrait"><div class="portrait-frame"><img src="/tirth-portrait.webp" width="720" height="960" alt="Tirth Panchori outdoors"/></div><figcaption>Bengaluru, India.<br/>Curious about what’s possible.</figcaption><svg class="portrait-annotation" viewBox="0 0 100 80" fill="none" aria-hidden="true"><path d="M15 8c45 0 66 14 51 42-8 15-28 13-22 2 5-11 28-4 36 15m-14-4 16 7-1-18" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        <div class="hero-contributions"><svg class="contribution-arrow" viewBox="0 0 80 65" fill="none" aria-hidden="true"><path d="M70 6c-4 23-21 4-23 22s-13 9-23 23m1-16-4 20 19-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="contribution-medal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v6a4 4 0 0 1-8 0V4Zm0 2H4v2a4 4 0 0 0 4 4m8-6h4v2a4 4 0 0 1-4 4m-4 2v5m-4 1h8"/></svg>
+          </span><p><strong>{contributionCount} contributions</strong><br/>to open source.</p>
+        </div>
+      </figure>
+    </div>
+    <div class="hero-bottom"><span>Backend systems. Applied AI. A human perspective.</span><a href="#about">Scroll to meet me <span class="scroll-arrow"><Arrow/></span></a></div>
+  </section>
+
+  <section id="about" aria-labelledby="about-title" class="section about-section">
+    <div class="section-heading centered"><h2 id="about-title">Tirth Panchori,<br class="phone-break"/> the person behind the code.</h2></div>
+    <div class="profile-panel"><figure class="profile-photo"><img src="/tirth-portrait.webp" width="720" height="960" loading="lazy" alt="Tirth Panchori outdoors"/></figure><div class="profile-cards"><div class="profile-intro"><h3>Tirth Panchori</h3><p>Backend developer & applied AI builder</p></div><div class="profile-bio"><p>I’m an Information Science & Engineering student at <strong>BMSIT&M</strong>, building systems that connect APIs, data, and AI.</p><p>My time as <strong>E-Cell Design Lead</strong> taught me to care about how the work looks, how it feels, and whether it makes sense to the person using it.</p></div><div class="profile-details"><span>Bengaluru, India</span><span>Expected graduation · 2027</span></div></div></div>
+  </section>
+
+  <section id="projects" aria-labelledby="projects-title" class="section projects-section">
+    <div class="section-heading"><h2 id="projects-title">Ideas, made useful.</h2><p>Four projects. Four different problems.<br/>Explore the systems and the decisions behind them.</p></div>
+    <div class="projects-grid">{projects.map(p=><article class="project"><a class="project-preview" href={`/projects/${p.slug}/`} aria-label={`Explore ${p.name}`}><ProjectArt type={p.slug}/></a><div class="project-info"><div><span class="project-kind">{p.kind}</span><h3><a href={`/projects/${p.slug}/`}>{p.name}</a></h3><p>{p.summary}</p></div><a class="project-arrow" href={`/projects/${p.slug}/`} aria-label={`Read ${p.name} project story`}><Arrow/></a></div><div class="project-tags">{p.tags.map(tag=><span>{tag}</span>)}</div></article>)}</div>
+  </section>
+
+  <section id="open-source" class="section open-source-section" aria-labelledby="open-source-title">
+    <div class="oss-heading"><h2 id="open-source-title">Open source.</h2><p>{contributionCount} merged pull requests across {contributionGroups.length} projects.<br/>Practical fixes, reviewed and shipped in shared code.</p></div>
+    <ul class="oss-selected" aria-label="Selected open-source contributions">{featuredContributions.map(pr=><li><a href={contributionUrl(pr.repository,pr.number)} target="_blank" rel="noopener noreferrer"><span class="oss-project">{pr.project}</span><span class="oss-copy"><strong>{pr.title}</strong><span>{pr.summary}</span></span><span class="oss-pr">#{pr.number}<Arrow/></span></a></li>)}</ul>
+    <div class="oss-actions"><a class="oss-all-link" href="/open-source/">View all {contributionCount} contributions <Arrow/></a><a class="oss-profile-link" href="https://github.com/Tirthpanchori" target="_blank" rel="noopener noreferrer">My GitHub <Arrow/></a></div>
+  </section>
+
+  <section id="process" aria-labelledby="process-title" class="section process-section">
+    <div class="section-heading centered"><h2 id="process-title">How I build with purpose.</h2><p>Clear thinking. Small steps. Useful outcomes.</p></div>
+    <div class="process-steps">{steps.map((step,i)=><div class="process-slot" style={`--step:${i}`}><article class="process-step"><h3><button class="step-button" aria-expanded="false" aria-controls={`step-detail-${i}`}><span class="step-top"><ProcessIcon index={i}/><span class="step-number">{i+1}</span></span><span class="step-title">{step[0]}</span></button></h3><div class="step-detail" id={`step-detail-${i}`} aria-hidden="true"><div><p>{step[2]}</p></div></div></article></div>)}</div>
+    <div class="process-close"><div><h3>Thoughtful, from start to finish.</h3><p>Every implementation starts with a question worth answering.</p></div><a class="process-cta" href="#contact">Let’s build together <Arrow/></a></div>
+  </section>
+
+  <section id="strengths" aria-labelledby="strengths-title" class="section strengths-section">
+    <div class="section-heading"><h2 id="strengths-title">What I bring.</h2><p>Practical engineering, a designer’s perspective,<br/>and the curiosity to keep improving.</p></div>
+    <div class="strengths-grid">
+      <article class="strength strength-api"><div class="strength-title"><ProcessIcon index={2}/><h3>Backend systems</h3></div><p>Clear API boundaries, authentication, and data models that make the next feature easier to build.</p><div class="api-proof" aria-label="Illustrative API structure"><div class="proof-toolbar"><span>MindArc / API structure</span><span>Illustrative</span></div><div class="proof-route"><b>POST</b><code>/api/auth/token</code><span>Authenticate</span></div><div class="proof-route"><b>POST</b><code>/api/quizzes</code><span>Create a quiz</span></div><div class="proof-route"><b>GET</b><code>/api/attempts</code><span>Retrieve attempts</span></div><div class="proof-footer"><span>Django REST</span><span>PostgreSQL</span><span>JWT</span></div></div></article>
+      <article class="strength strength-design"><div class="strength-title"><ProcessIcon index={0}/><h3>A designer’s perspective</h3></div><p>From E-Cell design leadership to open-source review, I care about clear communication and considered decisions.</p></article>
+      <article class="strength strength-data"><div class="strength-title"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><ellipse cx="16" cy="7" rx="10" ry="4" stroke="currentColor" stroke-width="1.5"/><path d="M6 7v17c0 5 20 5 20 0V7M6 15c0 5 20 5 20 0" stroke="currentColor" stroke-width="1.5"/></svg><h3>Data with a purpose</h3></div><p>PostgreSQL for records. Redis for a sliding window. The data structure follows the behavior, not the other way around.</p></article>
+      <article class="strength strength-ai"><div class="strength-title"><ProcessIcon index={1}/><h3>AI, grounded in context</h3></div><p>Relevant evidence before a confident answer. Retrieval and reasoning connected to a specific problem.</p><div class="retrieval-proof" aria-label="LogAnalyzer three-pass retrieval concept"><span class="retrieval-source">Cross-service logs</span><div class="retrieval-path"><span>Parse</span><i></i><span>Retrieve</span><i></i><span>Reason</span></div><div class="retrieval-evidence"><span>Session context</span><span>Time window</span><span>Source metadata</span></div><span class="retrieval-caption">LogAnalyzer · Three passes, one connected story.</span></div></article>
+    </div>
+    <div class="tool-strip" aria-label="Technologies and skills"><span>Python</span><span>Django REST</span><span>FastAPI</span><span>PostgreSQL</span><span>Redis</span><span>LangChain</span><span>ChromaDB</span><span>React</span><span>Durable Task Processing</span></div>
+  </section>
+
+  <section id="journey" aria-labelledby="journey-title" class="journey-section">
+    <div class="journey-stage"><h2 id="journey-title">My journey.</h2><div class="journey-wheel" aria-hidden="true"><div class="journey-disc"></div><div class="year-orbit">{journey.map((item,i)=><div class="year-spoke" style={`--year-angle:${i*90}deg`}><span class="year-bubble"><span>{item.year}</span></span></div>)}</div></div><div class="journey-stories">{journey.map((item,i)=><article class:list={['journey-story',i===0&&'is-current']} data-milestone={i}><span class="journey-year">{item.year}</span><h3>{item.title}</h3><p>{item.text}</p><span class="journey-note">{item.note}</span></article>)}</div><div class="journey-controls" aria-label="Journey milestones">{journey.map((item,i)=><button data-journey={i} aria-label={`Show ${item.year}: ${item.title}`} aria-pressed={i===0?'true':'false'}><span>{item.year}</span><i></i></button>)}</div></div>
+  </section>
+
+  <section id="contact" class="contact-section"><div class="section contact-inner"><h2>Let’s <span class="footer-word">build</span><br/>something <em>useful.</em></h2><div class="contact-actions"><p>A project, a question, or a thoughtful conversation.<br/>I’d love to hear from you.</p><div class="email-row"><a href="mailto:panchoritirth483@gmail.com">panchoritirth483@gmail.com <Arrow/></a><button class="copy-email" aria-label="Copy email address"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M16 8V4H4v12h4" stroke="currentColor" stroke-width="1.4"/></svg></button></div><span class="copy-status" role="status" aria-live="polite"></span><div class="contact-links"><a href="https://github.com/Tirthpanchori" target="_blank" rel="noopener noreferrer">GitHub <Arrow/></a><a href="https://www.linkedin.com/in/tirth-panchori-860887206/" target="_blank" rel="noopener noreferrer">LinkedIn <Arrow/></a><a href="mailto:panchoritirth483@gmail.com?subject=Resume%20request">Request résumé <Arrow/></a></div></div></div>
+    <footer class="footer"><div class="footer-meta"><span>Bengaluru, India</span><span>© {new Date().getFullYear()} Tirth Panchori</span><a href="#home">Back to top ↑</a></div><a class="footer-big" href="mailto:panchoritirth483@gmail.com">Get In Touch</a></footer>
+  </section>
+</main>
+</Layout>
